@@ -77,7 +77,8 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    //std::getchar();
+    // comment this out when running the profiler
+    std::getchar();
 
     // Finish
     exit(EXIT_SUCCESS);

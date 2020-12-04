@@ -1,26 +1,12 @@
-/**
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
+/*
+ * Main file responsible for setting up information to run the pi estimation test.
+ * Not much "interesting" information in this file.
+ * test.cpp includes the Test operator for timing and producing results.
+ * piestimator.cu includes the parallel CUDA code that runs the Monte Carlo estimation of pi.
  *
- * Please refer to the NVIDIA end user license agreement (EULA) associated
- * with this source code for terms and conditions that govern your use of
- * this software. Any use, reproduction, disclosure, or distribution of
- * this software and related documentation outside the terms of the EULA
- * is strictly prohibited.
+ * Includes code snippets written by NVIDIA Corporation.
  *
  */
-
-///////////////////////////////////////////////////////////////////////////////
-// Monte Carlo: Estimate Pi
-// ========================
-//
-// This sample demonstrates a very simple Monte Carlo estimation for Pi.
-//
-// This file, main.cpp, contains the setup information to run the test, for
-// example parsing the command line and integrating this sample with the
-// samples framework. As such it is perhaps less interesting than the guts of
-// the sample. Readers wishing to skip the clutter are advised to skip straight
-// to Test.operator() in test.cpp.
-///////////////////////////////////////////////////////////////////////////////
 
 
 #include <iostream>
@@ -91,7 +77,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    std::getchar();
+    //std::getchar();
 
     // Finish
     exit(EXIT_SUCCESS);

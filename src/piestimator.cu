@@ -1,11 +1,7 @@
 /*
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
- *
- * Please refer to the NVIDIA end user license agreement (EULA) associated
- * with this source code for terms and conditions that govern your use of
- * this software. Any use, reproduction, disclosure, or distribution of
- * this software and related documentation outside the terms of the EULA
- * is strictly prohibited.
+ * Code that defines the PiEstimator operation. 
+ * 
+ * Includes code snippets written by NVIDIA Corporation.
  *
  */
 
@@ -96,6 +92,8 @@ __global__ void computeValue(unsigned int *const results,
     // Count the number of points which lie inside the unit quarter-circle
     unsigned int pointsInside = 0;
 
+    // each thread plots ~64 points: 128 threads * 64 points/thread = 8192points/block
+    // 1220 blocks * 8192points/block = 9,994,240 points ~ 10,000,000 points
     for (unsigned int i = tid ; i < numSims ; i += step)
     {
         Real x;
@@ -171,13 +169,15 @@ Real PiEstimator<Real>::operator()()
     // are multiprocessors on the target device.
     unsigned int blocksPerSM = 10;
     unsigned int numSMs      = deviceProperties.multiProcessorCount;
+    //printf("Number of SM:  %d\n", numSMs); // 68 SMs
 
+    // aim for 10-20 blocks per SM
     while (grid.x > 2 * blocksPerSM * numSMs)
     {
         grid.x >>= 1;
     }
-    printf("Thread Block values: {%d, %d, %d}\n", block.x, block.y, block.z);
-    printf("Grid values:         {%d, %d, %d}\n\n", grid.x, grid.y, grid.z);
+    printf("Thread Block values:  {%d, %d, %d}\n", block.x, block.y, block.z);
+    printf("Grid values:          {%d, %d, %d}\n\n", grid.x, grid.y, grid.z);
     //printf("block.x * sizeof(unsigned int) value: %d\n", block.x * sizeof(unsigned int));
 
     // Get initRNG function properties and check the maximum block size

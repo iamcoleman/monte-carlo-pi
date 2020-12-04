@@ -1,11 +1,8 @@
 /*
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
- *
- * Please refer to the NVIDIA end user license agreement (EULA) associated
- * with this source code for terms and conditions that govern your use of
- * this software. Any use, reproduction, disclosure, or distribution of
- * this software and related documentation outside the terms of the EULA
- * is strictly prohibited.
+ * Defines the Test operator that is used to time the PiEstimator operation.
+ * Also produces the analysis and results of the Monte Carlo pi estimation.
+ * 
+ * Includes code snippets written by NVIDIA Corporation.
  *
  */
 
@@ -32,6 +29,7 @@ bool Test<Real>::operator()()
     using std::endl;
     using std::setw;
 
+    // Create a Stop Watch to measure time spent calculating pi
     StopWatchInterface *timer = NULL;
     sdkCreateTimer(&timer);
 
@@ -71,7 +69,7 @@ bool Test<Real>::operator()()
     printf("Absolute error: %e\n", abserror);
     printf("Relative error: %e\n\n", relerror);
 
-    // Check result
+    // Check result against tolerance, should be fine unless something horrible happened
     if (relerror > tolerance)
     {
         printf("computed result (%e) does not match expected result (%e).\n", result, PI);
@@ -82,12 +80,8 @@ bool Test<Real>::operator()()
         pass = true;
     }
 
-    // print total tests ran
-    unsigned long long int totalNumberOfPoints = (long long)numSims * (long long)threadBlockSize * (long long)1220;
-    printf("Total number of points plotted on all threads: %lld\n", totalNumberOfPoints);
-
     // Print results
-    printf("Performance per thread = %.2f sims/s\n", numSims / elapsedTime);
+    printf("Performance = %.2f sims/s\n", numSims / elapsedTime);
     printf("Time = %.2f(ms)\n", elapsedTime * 1000.0f);
 
     sdkDeleteTimer(&timer);
